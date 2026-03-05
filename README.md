@@ -81,7 +81,7 @@ Time Coverage : -
 - fat (integer)
 - carbohydrat (integer)
 - name (string)
-- image (base64)
+- image (string)
 
 ### Data Quality
 Completeness : 100 %  
