@@ -1,164 +1,122 @@
-# Indonesia Food and Nutrition Deficiency Prediction and Analytics Platform
+# Project Information
 
-## Project Information
-**Project Name:** Indonesia Food and Nutrition Deficiency Prediction and Analytics Platform  
-**Created By:** Team 4 (WASAWIT)  
-**Date:** February 19, 2026  
-**Version:** 1.0.0  
+Project Name : Indonesia Food and Nutrition Deficiency Prediction and Analytics Platform  
+Created By : Team 4 (WASAWIT)  
+Date : February 19, 2026  
+Version : 1.0.0  
 
----
-
-# 1. Executive Summary
+# Executive Summary
 
 ## 1.1 Project Overview
 
-**Project Objective**  
-Develop a prediction and analytics system to monitor and analyze food and nutrition deficiencies in Indonesia.
+Tujuan Project : Mengembangkan sistem prediksi dan analitik untuk memantau dan menganalisa kekurangan pangan dan gizi di indonesia  
 
-**Project Scope**
-- Integration of food distribution data
-- Food nutrition data analysis
-- Food consumption analysis
-- Food recommendation system
+Scope Project : Integrasi data persebaran pangan, nutrisi makanan, konsumsi pangan dan rekomendasi pangan  
 
-**Expected Outcomes**
-- Predictive model for potential nutrition deficiencies in specific regions
-- Interactive analytics dashboard showing regions with food and nutrition deficiencies
+Expected Outcomes : Model prediksi potensi kekurangan nutrisi dan gizi pada suatu wilayah dan dashboard analitik interaktif peta daerah kekurangan nutrisi dan gizi  
 
-**Timeline**
-- Project duration: 3 months
-
----
+Timeline : 3 bulan  
 
 ## 1.2 Stakeholders
 
-### Project Owner
-Badan Pangan Nasional Indonesia
+Project Owner : Badan Pangan Nasional Indonesia  
 
 ### Team Members
-| Role | Name |
-|-----|-----|
-| Project Manager | Alan Herva |
-| Data Engineer | Riza Hanafi |
-| Data Analyst | Vicky Rizkianto |
+- Data Engineer : Riza Hanafi
+- Data Analyst : Vicky Rizkianto
+- Project Manager : Alan Herva
 
 ### End Users
 - Badan Pangan Nasional
-- General Public
-
----
+- Masyarakat Umum
 
 # 2. Data Source Analysis
 
-## 2.1 Government Dataset
+## 2.1 Data Pemerintah
 
-### Source Details
-| Attribute | Information |
-|---|---|
-| Dataset Name | Jumlah Penduduk yang Mengalami Ketidakcukupan Konsumsi Pangan Provinsi Update Tahun 2024 |
-| Source | https://data.badanpangan.go.id/datasetpublications/dfu/jumlah-pou-provinsi-2024 |
-| Data Owner | Badan Pangan Nasional Indonesia |
-| Update Frequency | Annual |
+### Source Detail
+Dataset Name : Jumlah Penduduk yang Mengalami Ketidakcukupan Konsumsi Pangan Provinsi Update Tahun 2024  
+URL/Access Point : https://data.badanpangan.go.id/datasetpublications/dfu/jumlah-pou-provinsi-2024  
+Data Owner : Badan Pangan Nasional Indonesia  
+Update Frequency : Tahunan  
 
-### Data Characteristics
-| Attribute | Description |
-|---|---|
-| Format | CSV, JSON, Excel |
-| Volume | 17 KB |
-| Time Coverage | 2018 – 2024 |
+### Data Analysis
+Format Data : CSV, JSON, Excel  
+Volume Data : 17 KB  
+Time Coverage : 2018 - 2024  
 
 ### Data Fields
-| Field | Type |
-|---|---|
-| No | Integer |
-| Tahun | Integer |
-| Kode_provinsi | Integer |
-| PoU | Float |
-| Jumlah_Penduduk | Integer |
-| Penduduk_Undernourish | Integer |
+- No (integer)
+- Tahun (integer)
+- Kode_provinsi (Integer)
+- PoU (Double/Float/Decimal)
+- Jumlah_Penduduk (Integer)
+- Penduduk_Underdourish (Integer)
 
-### Data Quality Assessment
-| Metric | Result |
-|---|---|
-| Completeness | 100% |
-| Accuracy | High (verified by Badan Pangan Nasional Indonesia) |
-| Consistency | Good |
-| Timeliness | Annual updates |
+### Data Quality
+Completeness : 100 %  
+Accuracy : High (verified by Badan Pangan Nasional Indonesia)  
+Consistency : Good  
+Timeliness : Update Tahunan  
 
 ---
 
-## 2.2 Kaggle Dataset
+## 2.2 Dataset Kaggle
 
-### Source Details
-| Attribute | Information |
-|---|---|
-| Dataset Name | Indonesian Food and Drink Nutrition |
-| Source | https://www.kaggle.com/datasets/anasfikrihanif/indonesian-food-and-drink-nutrition-dataset |
-| Data Owner | Ministry of Health of the Republic of Indonesia |
-| Update Frequency | Annual |
+### Source Detail
+Dataset Name : Indonesian Food And Drink Nutrition  
+URL/Access Point : https://www.kaggle.com/datasets/anasfikrihanif/indonesian-food-and-drink-nutrition-dataset  
+Data Owner : Ministry of Health of the Republic of Indonesia  
+Update Frequency : Tahunan  
 
-### Data Characteristics
-| Attribute | Description |
-|---|---|
-| Format | CSV |
-| Volume | 75 KB |
-| Time Coverage | Not specified |
+### Data Analysis
+Format Data : CSV  
+Volume Data : 75 KB  
+Time Coverage : -  
 
-### Data Fields
-| Field | Type |
-|---|---|
-| id | Integer |
-| calories | Integer |
-| proteins | Integer |
-| fat | Integer |
-| carbohydrate | Integer |
-| name | String |
-| image | Base64 |
+### Data Field
+- id (integer)
+- calories (integer)
+- proteins (integer)
+- fat (integer)
+- carbohydrat (integer)
+- name (string)
+- image (base64)
 
-### Data Quality Assessment
-| Metric | Result |
-|---|---|
-| Completeness | 100% |
-| Accuracy | High (verified by Ministry of Health of the Republic of Indonesia) |
-| Consistency | Good |
-| Timeliness | Last updated 2 years ago |
-| Documentation Quality | Good |
+### Data Quality
+Completeness : 100 %  
+Accuracy : High (verified by Ministry of Health of the Republic of Indonesia)  
+Consistency : Good  
+Timeliness : Updated 2 years ago  
+Documentation Quality : Good  
 
 ---
 
-## 2.3 Government Dataset
+## 2.3 Dataset Kaggle
 
-### Source Details
-| Attribute | Information |
-|---|---|
-| Dataset Name | Rata-rata Konsumsi per Jenis Pangan Penduduk Indonesia Provinsi |
-| Source | https://data.badanpangan.go.id/datasetpublications/gsp/konsumsi-provinsi |
-| Data Owner | Badan Pangan Nasional Indonesia |
-| Update Frequency | Annual |
+### Source Detail
+Dataset Name : Rata-rata Konsumsi per Jenis Pangan Penduduk Indonesia Provinsi  
+URL/Access Point : https://data.badanpangan.go.id/datasetpublications/gsp/konsumsi-provinsi  
+Data Owner : Badan Pangan Nasional Indonesia  
+Update Frequency : Tahunan  
 
-### Data Characteristics
-| Attribute | Description |
-|---|---|
-| Format | CSV, JSON, Excel |
-| Volume | 457 KB |
-| Time Coverage | 2018 – 2024 |
+### Data Analysis
+Format Data : CSV, JSON, Excel  
+Volume Data : 457 KB  
+Time Coverage : 2018 - 2024  
 
-### Data Fields
-| Field | Type |
-|---|---|
-| No | Integer |
-| Tahun | Integer |
-| Kode Provinsi | Integer |
-| Provinsi | String |
-| Kelompok Bahan Pangan | String |
-| Komoditas | String |
-| Konsumsi Pangan | Float |
+### Data Field
+- No (integer)
+- Tahun (integer)
+- Kode Provinsi (integer)
+- Provinsi (string)
+- Kelompok Bahan Pangan (string)
+- Komoditas (string)
+- Konsumsi Pangan (Float)
 
-### Data Quality Assessment
-| Metric | Result |
-|---|---|
-| Completeness | 100% |
-| Accuracy | High (verified by Badan Pangan Nasional Indonesia) |
-| Consistency | Good |
-| Timeliness | Annual updates |
-| Documentation Quality | Good |
+### Data Quality
+Completeness : 100 %  
+Accuracy : High (verified by Badan Pangan Nasional Indonesia)  
+Consistency : Good  
+Timeliness : Update Tahunan  
+Documentation Quality : Good
