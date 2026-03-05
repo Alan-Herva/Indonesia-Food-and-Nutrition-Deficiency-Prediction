@@ -92,7 +92,7 @@ Documentation Quality : Good
 
 ---
 
-## 2.3 Dataset Kaggle
+## 2.3 Data Pemerintah
 
 ### Source Detail
 Dataset Name : Rata-rata Konsumsi per Jenis Pangan Penduduk Indonesia Provinsi  
