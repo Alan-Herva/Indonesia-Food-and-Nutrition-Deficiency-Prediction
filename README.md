@@ -63,12 +63,12 @@ Dataset hasil proses ETL digunakan untuk membangun model prediksi tingkat kerawa
 - **Target:**
   - Sebuah tabel baru di dalam database pada server Aiven. Tabel ini merupakan output utama yang dapat diakses oleh layanan lain untuk melakukan analisis langsung di database.
 - **Metode:**  
-  - Fungsi to_sql() dari pandas digunakan untuk menulis data dari DataFrame langsung ke tabel di database PostgreSQL
+  - Fungsi to_sql() dari pandas digunakan untuk menulis data dari DataFrame langsung ke tabel di database Mysql
   - konfigurasi fungsi to_sql() diatur dengan parameter-parameter kunci:
     - name diisi dengan yang mendefinisikan nama tabel tujuan
     - con diisi dengan variabel engine, yaitu objek koneksi dari SQLAlchemy
       yang telah dikonfigurasi sebelumnya untuk terhubung ke database Aiven
-  - Data diverifikasi dengan membaca 5 baris pertama dari tabel baru tersebut menggunakan pd.read_sql() dan df.head()
+  - Data diverifikasi dengan membaca 5 baris pertama dari tabel baru tersebut menggunakan `pd.read_sql()` dan `df.head()`
 
 ## Arsitektur / Workflow ETL  
 - **Alur Modular:**  
