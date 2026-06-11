@@ -1,122 +1,102 @@
-# Project Information
+# Data Engineering
 
-Project Name : Indonesia Food and Nutrition Deficiency Prediction and Analytics Platform  
-Created By : Team 4 (WASAWIT)  
-Date : February 19, 2026  
-Version : 1.0.0  
+# Proyek : Indonesia Food and Nutrition Defiency Prediction
 
-# Executive Summary
+## Kontributor
+| Nama | Nim | Peran |
+|------|------|------|
+| Alan Herva Ikhsan Saputra | 244311001 | Project Manager |
+| Riza Hanafi | 244311026 | Data Engineer |
+| Vicky Rizkyanto | 244311030 | Data Analyst |
 
-## 1.1 Project Overview
+# Deskripsi Proyek
+Proyek ini bertujuan untuk mengembangkan sistem prediksi dan analitik guna mengidentifikasi potensi kekurangan pangan, nutrisi, dan gizi di berbagai wilayah di Indonesia. Sistem dibangun melalui integrasi data persebaran pangan, kandungan nutrisi makanan, serta pola konsumsi masyarakat untuk menghasilkan model prediksi risiko kekurangan gizi pada suatu wilayah. Selain itu, sistem menyediakan analitik berbasis peta yang membantu visualisasi daerah-daerah dengan tingkat kerawanan nutrisi dan gizi
 
-Tujuan Project : Mengembangkan sistem prediksi dan analitik untuk memantau dan menganalisa kekurangan pangan dan gizi di indonesia  
+# Manfaat Data / Use Case
+ - **Tujuan Proyek**: Mengembangkan sistem prediksi dan analitik untuk menganalisa kekurangan pangan dan gizi di wilayah indonesia
+ - **Manfaat**: Data yang digunakan dalam proyek ini memberikan gambaran menyeluruh mengenai kondisi pangan dan gizi masyarakat Indonesia, sehingga dapat dimanfaatkan untuk :
+     - Mengidentifikasi wilayah dengan risiko kekurangan nutrisi dan gizi.
+     - Menganalisis hubungan antara konsumsi pangan dan kecukupan nutrisi.
+     - Menyediakan informasi yang mudah dipahami melalui visualisasi dan peta interaktif.
 
-Scope Project : Integrasi data persebaran pangan, nutrisi makanan, konsumsi pangan dan rekomendasi pangan  
+# Serving Analisis
+Analisis pada proyek ini terdiri dari beberapa tahapan utama, yaitu pengambilan dan integrasi data dari berbagai sumber terkait persebaran pangan, kandungan nutrisi makanan, serta pola konsumsi masyarakat (extract). Selanjutnya dilakukan proses pembersihan, transformasi, dan penggabungan data berdasarkan wilayah dan periode waktu tertentu (transform), kemudian hasilnya disimpan ke dalam database untuk kebutuhan analitik dan pemodelan (load). Data yang telah tersimpan disajikan melalui dashboard dan visualisasi peta interaktif untuk memantau kondisi pangan, nutrisi, dan gizi di berbagai daerah dengan menggunakan data studio. Selain itu, data tersebut dimanfaatkan untuk membangun model machine learning yang dapat memprediksi potensi kekurangan nutrisi dan gizi pada suatu wilayah indonesia
 
-Expected Outcomes : Model prediksi potensi kekurangan nutrisi dan gizi pada suatu wilayah dan dashboard analitik interaktif peta daerah kekurangan nutrisi dan gizi  
+# Serving Machine Learning
+Dataset hasil proses ETL digunakan untuk membangun model prediksi tingkat kerawanan pangan dan gizi di Indonesia. Proyek ini mengimplementasikan algoritma Facebook Prophet untuk melakukan time series forecasting terhadap persentase penduduk yang mengalami undernourishment pada setiap provinsi berdasarkan data historis. Sebelum pemodelan, dilakukan validasi ketersediaan data sehingga hanya wilayah dengan jumlah data yang memadai yang diproses oleh model. Apabila data historis tidak mencukupi untuk membangun model Prophet, sistem secara otomatis menggunakan Linear Trend Forecasting sebagai metode alternatif untuk menghasilkan prediksi. Hasil prediksi kemudian digunakan untuk menentukan tingkat risiko wilayah (Aman, Waspada, atau Rawan) serta divisualisasikan dalam bentuk grafik dan peta analitik guna mendukung pengambilan keputusan berbasis data.
 
-Timeline : 3 bulan  
+# Pipeline
 
-## 1.2 Stakeholders
+## Extract ( Pengambilan Data )
+- **Sumber Data**
+  - Jumlah Penduduk yang Mengalami Ketidakcukupan Konsumsi Pangan Provinsi Update Tahun 2024 - Badan Pangan Nasional Indonesia (https://data.badanpangan.go.id/datasetpublications/dfu/jumlah-pou-provinsi-2024)
+  - Indonesian Food And Drink Nutrition - Kaggle (https://www.kaggle.com/datasets/anasfikrihanif/indonesian-food-and-drink-nutrition-dataset)
+  - Rata-rata Konsumsi per Jenis Pangan Penduduk Indonesia Provinsi - Badan Pangan Nasional Indonesia (https://data.badanpangan.go.id/datasetpublications/gsp/konsumsi-provinsi)
+ 
+- **Metode Pengambilan**
+  - Langsung download data
+  - Membaca data dari file CSV menggunakan `pandas.read_csv()`
+  - Melakukan validasi struktur dataset sebelum memasuki proses transformasi.
+ 
+# Transform ( Pembersihan & Transformasi )
+- **Pembersihan :**
+  - Menstandarkan nama kolom menjadi format yang konsisten (lowercase dan snake_case).
+  - Menghapus kolom yang tidak digunakan seperti kolom `No`.
+  - Menghapus data duplikat.
+  - Menghilangkan kolom kosong atau kolom teknis seperti `Unnamed`.
+  - Membersihkan nilai string dari spasi yang tidak diperlukan.
+- **Transformasi :**
+  - Menggabungkan dataset konsumsi pangan dan dataset POU berdasarkan:
+      - Tahun
+      - Kode Provinsi
+      - Nama Provinsi
+- **Feature Engineering :**
+  Beberapa fitur turunan dibuat untuk mendukung proses analitik dan prediksi:
+  - **Konsumsi per 1000 Penduduk:**
+    Mengukur tingkat konsumsi pangan relatif terhadap jumlah penduduk.
+  - **Persentase Undernourishment:**
+    Menghitung persentase penduduk yang mengalami kekurangan pangan pada setiap wilayah.
+  - **Log Penduduk:** 
+    Transformasi logaritmik jumlah penduduk untuk mengurangi pengaruh skala data yang terlalu besar pada model prediksi.
 
-Project Owner : Badan Pangan Nasional Indonesia  
+# Load ( Pemindahan ke Target )
+- **Target:**
+  - Sebuah tabel baru di dalam database pada server Aiven. Tabel ini merupakan output utama yang dapat diakses oleh layanan lain untuk melakukan analisis langsung di database.
+- **Metode:**  
+  - Fungsi to_sql() dari pandas digunakan untuk menulis data dari DataFrame langsung ke tabel di database PostgreSQL
+  - konfigurasi fungsi to_sql() diatur dengan parameter-parameter kunci:
+    - name diisi dengan yang mendefinisikan nama tabel tujuan
+    - con diisi dengan variabel engine, yaitu objek koneksi dari SQLAlchemy
+      yang telah dikonfigurasi sebelumnya untuk terhubung ke database Aiven
+  - Data diverifikasi dengan membaca 5 baris pertama dari tabel baru tersebut menggunakan pd.read_sql() dan df.head()
 
-### Team Members
-- Data Engineer : Riza Hanafi
-- Data Analyst : Vicky Rizkianto
-- Project Manager : Alan Herva
+## Arsitektur / Workflow ETL  
+- **Alur Modular:**  
+  - Proses ETL diringkas dalam sebuah fungsi `run_pipeline()` yang mencakup langkah-langkah membaca, membersihkan, mengisi, menggabungkan, dan mengubah data.
+  -  Kode diorganisir secara sekuensial di dalam notebook Google Colab.
 
-### End Users
-- Badan Pangan Nasional
-- Masyarakat Umum
+- **Tools yang Digunakan:**  
+  - Python 3.x
+  - Library: `pandas`, `numpy`, `sqlalchemy`, `matplotlib`, `prophet`, `scipy`
+  - Platform: Google Colab
 
-# 2. Data Source Analysis
 
-## 2.1 Data Pemerintah
+## Kode Program  
+- **Struktur Kode:**  
+  - Terdapat 2 notebook: satu untuk ETL, satu untuk Machine Learning.
+  - Nama variabel dan fungsi deskriptif: `df_food`, `extract_data()`, `provinsi`, dll.
+    
+- **Machine Learning:**  
+  - Model utama: Facebook Prophet untuk melakukan time series forecasting tingkat undernourishment (kekurangan pangan) pada setiap provinsi berdasarkan data historis.
+  - Vvalidasi data : Hanya provinsi dengan minimal 3 tahun data historis yang diproses menggunakan Prophet untuk menjaga kualitas prediksi.
+  - Model cadangan (fallback): Linear Trend Forecasting menggunakan regresi linear sederhana `(numpy.polyfit)` apabila data historis tidak mencukupi untuk membangun model Prophet.
+  - Output model: Prediksi persentase undernourishment per provinsi pada tahun target beserta interval kepercayaan (confidence interval).
+  - Risk Scoring: Hasil prediksi dikategorikan menjadi:
+    - Aman (< 5%)
+    - Waspada (5% – 10%)
+    - Rawan (> 10%)
 
-### Source Detail
-Dataset Name : Jumlah Penduduk yang Mengalami Ketidakcukupan Konsumsi Pangan Provinsi Update Tahun 2024  
-URL/Access Point : https://data.badanpangan.go.id/datasetpublications/dfu/jumlah-pou-provinsi-2024  
-Data Owner : Badan Pangan Nasional Indonesia  
-Update Frequency : Tahunan  
-
-### Data Analysis
-Format Data : CSV, JSON, Excel  
-Volume Data : 17 KB  
-Time Coverage : 2018 - 2024  
-
-### Data Fields
-- No (integer)
-- Tahun (integer)
-- Kode_provinsi (Integer)
-- PoU (Double/Float/Decimal)
-- Jumlah_Penduduk (Integer)
-- Penduduk_Underdourish (Integer)
-
-### Data Quality
-Completeness : 100 %  
-Accuracy : High (verified by Badan Pangan Nasional Indonesia)  
-Consistency : Good  
-Timeliness : Update Tahunan  
-
----
-
-## 2.2 Dataset Kaggle
-
-### Source Detail
-Dataset Name : Indonesian Food And Drink Nutrition  
-URL/Access Point : https://www.kaggle.com/datasets/anasfikrihanif/indonesian-food-and-drink-nutrition-dataset  
-Data Owner : Ministry of Health of the Republic of Indonesia  
-Update Frequency : Tahunan  
-
-### Data Analysis
-Format Data : CSV  
-Volume Data : 75 KB  
-Time Coverage : -  
-
-### Data Field
-- id (integer)
-- calories (integer)
-- proteins (integer)
-- fat (integer)
-- carbohydrat (integer)
-- name (string)
-- image (string)
-
-### Data Quality
-Completeness : 100 %  
-Accuracy : High (verified by Ministry of Health of the Republic of Indonesia)  
-Consistency : Good  
-Timeliness : Updated 2 years ago  
-Documentation Quality : Good  
-
----
-
-## 2.3 Data Pemerintah
-
-### Source Detail
-Dataset Name : Rata-rata Konsumsi per Jenis Pangan Penduduk Indonesia Provinsi  
-URL/Access Point : https://data.badanpangan.go.id/datasetpublications/gsp/konsumsi-provinsi  
-Data Owner : Badan Pangan Nasional Indonesia  
-Update Frequency : Tahunan  
-
-### Data Analysis
-Format Data : CSV, JSON, Excel  
-Volume Data : 457 KB  
-Time Coverage : 2018 - 2024  
-
-### Data Field
-- No (integer)
-- Tahun (integer)
-- Kode Provinsi (integer)
-- Provinsi (string)
-- Kelompok Bahan Pangan (string)
-- Komoditas (string)
-- Konsumsi Pangan (Float)
-
-### Data Quality
-Completeness : 100 %  
-Accuracy : High (verified by Badan Pangan Nasional Indonesia)  
-Consistency : Good  
-Timeliness : Update Tahunan  
-Documentation Quality : Good
+- **Link Projek:** 
+  - ETL Pipeline: https://colab.research.google.com/drive/1cLeOAs0eW7DsCO5Zgw093u3PzytucPfX#scrollTo=Zf_WIb7kf05h
+  - Machine Learning : https://colab.research.google.com/drive/1jhE7lNJprZK4csDcpa3tr_9OCCjDqxpU#scrollTo=ceDaV6IyjAcF
+  - Data Studio (Looker) : https://datastudio.google.com/reporting/06b3b842-c65f-43b3-b947-5a6077af7c83/page/A5r0F
